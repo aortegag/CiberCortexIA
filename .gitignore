@@ -88,9 +88,10 @@ reports/generated/
 *.pdf
 *.docx
 
-# Alembic — keep structure but ignore auto-generated
-backend/migrations/versions/*.py
-!backend/migrations/versions/.gitkeep
+# Alembic migrations — commit all migration files
+# (only ignore pycache inside migrations)
+backend/migrations/__pycache__/
+backend/migrations/versions/__pycache__/
 
 # Secrets (extra safety net — already in .env)
 *.pem

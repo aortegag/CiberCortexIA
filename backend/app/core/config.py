@@ -27,6 +27,18 @@ class Settings(BaseSettings):
             f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
 
+    @property
+    def SYNC_DATABASE_URL(self) -> str:
+        """Synchronous URL for Celery workers (uses psycopg2)."""
+        return (
+            f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASSWORD}"
+            f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        )
+
+    # Nmap
+    NMAP_SCAN_TIMEOUT_SECONDS: int = 300  # 5 min max per scan
+    NVD_CACHE_TTL_SECONDS: int = 86400  # 24h cache for CVE results
+
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
 

@@ -2,7 +2,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# System dependencies for psycopg2 / asyncpg / weasyprint
+# System dependencies for psycopg2 / asyncpg / weasyprint / nmap
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2 \
     libgdk-pixbuf-2.0-0 \
     shared-mime-info \
+    nmap \
     && rm -rf /var/lib/apt/lists/*
 
 # Non-root user (security best practice)
