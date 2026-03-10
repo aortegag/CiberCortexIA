@@ -7,6 +7,7 @@ from app.api.v1.auth import router as auth_router
 from app.api.v1.assets import router as assets_router
 from app.api.v1.exposure.discovery import router as discovery_router
 from app.api.v1.exposure.cve import router as cve_router
+from app.api.v1.hardening.assessments import router as hardening_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -34,6 +35,7 @@ app.include_router(auth_router, prefix="/api/v1")
 app.include_router(assets_router, prefix="/api/v1")
 app.include_router(discovery_router, prefix="/api/v1")
 app.include_router(cve_router, prefix="/api/v1")
+app.include_router(hardening_router, prefix="/api/v1")
 
 
 @app.get("/", include_in_schema=False)
