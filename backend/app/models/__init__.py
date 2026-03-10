@@ -8,3 +8,4 @@ from app.models.cve_correlation import CVECorrelation, CVEConfidence, CVEEvidenc
 from app.models.assessment import Assessment, AssessmentStatus  # noqa: F401
 from app.models.check_result import CheckResult, CheckResultStatus, EvidenceType  # noqa: F401
 from app.models.remediation_item import RemediationItem  # noqa: F401
+from app.models.report import Report, ReportType, ReportStatus  # noqa: F401
