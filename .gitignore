@@ -88,6 +88,12 @@ reports/generated/
 *.pdf
 *.docx
 
+# === Claude Code ===
+.claude/settings.local.json
+
+# === Next.js auto-generated ===
+frontend/next-env.d.ts
+
 # Alembic migrations — commit all migration files
 # (only ignore pycache inside migrations)
 backend/migrations/__pycache__/
