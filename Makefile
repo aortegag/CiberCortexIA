@@ -6,7 +6,8 @@
         migrate seed shell-api shell-db \
         dev-backend dev-frontend \
         test lint format \
-        prod-up prod-build \
+        prod-up prod-build prod-migrate \
+        ci-local deploy \
         clean nuke
 
 COMPOSE        = docker compose
@@ -121,6 +122,20 @@ prod-up: ## Levantar stack en modo producción
 
 prod-migrate: ## Migraciones en producción
 	$(COMPOSE_PROD) --profile migrate run --rm migrate
+
+ci-local: ## Simular CI localmente (lint + tests + build frontend)
+	@echo "▶ Backend lint..."
+	@cd $(BACKEND_DIR) && ruff check app/ tests/ && ruff format --check app/ tests/
+	@echo "▶ Backend tests..."
+	@cd $(BACKEND_DIR) && pytest -v --tb=short
+	@echo "▶ Frontend lint..."
+	@cd $(FRONTEND_DIR) && npm run lint
+	@echo "▶ Frontend typecheck..."
+	@cd $(FRONTEND_DIR) && npx tsc --noEmit
+	@echo "✅ CI local pasado."
+
+deploy: ## Deploy en servidor Linux (ver scripts/deploy.sh)
+	@bash scripts/deploy.sh
 
 # ── Limpieza ──────────────────────────────────────────────────────────────────
 clean: ## Eliminar contenedores y redes (preserva volúmenes)

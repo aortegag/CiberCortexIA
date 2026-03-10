@@ -1,0 +1,89 @@
+# CiberCortex IA — Overrides de producción
+# Uso: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# O con make: make prod-up
+#
+# Este archivo SOBREESCRIBE valores del docker-compose.yml base.
+# Requisitos previos:
+#   1. Copiar .env.example → .env y completar TODOS los valores
+#   2. SECRET_KEY y DB_PASSWORD deben ser valores seguros generados con:
+#      python3 -c "import secrets; print(secrets.token_hex(32))"
+
+version: '3.9'
+
+services:
+
+  # ── API Backend (producción) ─────────────────────────────────────────────────
+  api:
+    # Sin hot-reload; usa imagen pre-construida o build cacheado
+    command: >
+      uvicorn app.main:app
+        --host 0.0.0.0
+        --port 8000
+        --workers 2
+        --log-level warning
+        --no-access-log
+    volumes:
+      # Sólo el volumen de reportes; sin bind-mount del código
+      - reports_data:/tmp/cybercortex/reports
+    environment:
+      ENVIRONMENT: production
+      DEBUG: "false"
+    restart: always
+    # No exponer el puerto directamente; el acceso va por nginx
+    ports: []
+
+  # ── Celery Worker (producción) ───────────────────────────────────────────────
+  worker:
+    command: >
+      celery -A app.services.task_manager worker
+        --loglevel=warning
+        --concurrency=4
+        -Q scans,reports,default
+    volumes:
+      - reports_data:/tmp/cybercortex/reports
+    environment:
+      ENVIRONMENT: production
+      DEBUG: "false"
+    restart: always
+    # Worker siempre activo en producción (sin perfil)
+    profiles: []
+
+  # ── Frontend Next.js (producción) ────────────────────────────────────────────
+  frontend:
+    environment:
+      NODE_ENV: production
+    # Sin puerto expuesto; acceso solo vía nginx
+    ports: []
+    restart: always
+
+  # ── Postgres (producción) ────────────────────────────────────────────────────
+  db:
+    # No exponer el puerto al host en producción
+    ports: []
+    environment:
+      POSTGRES_USER:     ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB:       ${DB_NAME}
+    restart: always
+
+  # ── Redis (producción) ───────────────────────────────────────────────────────
+  redis:
+    ports: []
+    command: >
+      redis-server
+        --maxmemory 256mb
+        --maxmemory-policy allkeys-lru
+        --save 60 1
+        --loglevel warning
+    restart: always
+
+  # ── Nginx (producción — siempre activo sin perfil) ───────────────────────────
+  nginx:
+    profiles: []
+    restart: always
+    # Descomentar para HTTPS con Certbot:
+    # volumes:
+    #   - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    #   - /etc/letsencrypt:/etc/letsencrypt:ro
+    #   - /var/www/certbot:/var/www/certbot:ro
+    #   - nginx_logs:/var/log/nginx
