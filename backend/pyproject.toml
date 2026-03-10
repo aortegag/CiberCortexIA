@@ -1,0 +1,43 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["app", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "S",   # bandit security
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "RUF", # ruff-specific
+]
+ignore = [
+    "S101",  # assert allowed in tests
+    "S105",  # hardcoded password check — false positives in config defaults
+    "S106",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "N"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101", "B601"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=app --cov-report=term-missing --cov-fail-under=70"
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["*/tests/*", "*/__init__.py"]

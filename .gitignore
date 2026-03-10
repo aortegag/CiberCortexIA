@@ -1,0 +1,99 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Linting
+.ruff_cache/
+
+# === Node / Frontend ===
+node_modules/
+.npm
+.pnp
+.pnp.js
+.yarn/
+.next/
+out/
+.nuxt/
+dist/
+*.tsbuildinfo
+.eslintcache
+
+# === Environment files ===
+.env
+.env.local
+.env.*.local
+.env.production
+!.env.example
+!.env.docker.example
+
+# === Docker ===
+# (keep docker-compose.yml but ignore override)
+docker-compose.override.yml
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# === Project specific ===
+/tmp/
+reports/generated/
+*.pdf
+*.docx
+
+# Alembic — keep structure but ignore auto-generated
+backend/migrations/versions/*.py
+!backend/migrations/versions/.gitkeep
+
+# Secrets (extra safety net — already in .env)
+*.pem
+*.key
+*.crt
+secrets/
