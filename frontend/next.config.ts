@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // API rewrite → proxied to backend in dev
+  // Standalone output para Docker multi-stage (Stage 3: runner)
+  output: "standalone",
+
+  // API rewrite → proxied to backend en desarrollo local
+  // En producción, nginx hace el proxy directamente
   async rewrites() {
     return [
       {
