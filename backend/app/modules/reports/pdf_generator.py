@@ -249,15 +249,15 @@ def _render_hardening(data: dict) -> str:
     check_rows = "".join(
         f"<tr><td>{c['check_id']}</td>"
         f"<td>{c['title']}</td>"
-        f"<td><span class='badge badge-{c.get(\"severity\",\"low\")}'>{c.get('severity','—')}</span></td>"
-        f"<td><span class='badge badge-{c[\"result\"]}'>{c['result'].upper()}</span></td></tr>"
+        f"<td><span class='badge badge-{c.get('severity','low')}'>{c.get('severity','—')}</span></td>"
+        f"<td><span class='badge badge-{c['result']}'>{c['result'].upper()}</span></td></tr>"
         for c in checks
     )
 
     rem_rows = "".join(
         f"<tr><td>{r['check_id']}</td>"
         f"<td>{r['title']}</td>"
-        f"<td><span class='badge badge-{r.get(\"severity\",\"low\")}'>{r.get('severity','—')}</span></td>"
+        f"<td><span class='badge badge-{r.get('severity','low')}'>{r.get('severity','—')}</span></td>"
         f"<td>{r.get('effort_minutes','—')} min</td></tr>"
         for r in remediation
     )
@@ -330,7 +330,7 @@ def _render_executive(data: dict) -> str:
     top_actions = data.get("top_actions", [])
     action_rows = "".join(
         f"<tr><td>P{a['priority']}</td><td>{a['title']}</td>"
-        f"<td><span class='badge badge-{a[\"severity\"]}'>{a['severity']}</span></td></tr>"
+        f"<td><span class='badge badge-{a['severity']}'>{a['severity']}</span></td></tr>"
         for a in top_actions
     )
 

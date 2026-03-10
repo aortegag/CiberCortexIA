@@ -1,11 +1,13 @@
 from typing import List
 
-from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+    )
 
     # App
     APP_NAME: str = "CiberCortex IA"
@@ -48,15 +50,8 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
-    # CORS — comma-separated in env, parsed to list
+    # CORS — JSON array in env: '["http://localhost:3000","http://localhost:3001"]'
     CORS_ORIGINS: List[str] = ["http://localhost:3000"]
-
-    @field_validator("CORS_ORIGINS", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, v: str | List[str]) -> List[str]:
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(",")]
-        return v
 
     # Anthropic
     ANTHROPIC_API_KEY: str = ""
