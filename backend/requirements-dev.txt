@@ -3,6 +3,7 @@ pytest>=8.3.0
 pytest-asyncio>=0.24.0
 pytest-cov>=6.0.0
 httpx>=0.28.0  # async test client
+aiosqlite>=0.20.0  # async SQLite driver for in-memory tests
 
 # Linting / Formatting
 ruff>=0.8.4

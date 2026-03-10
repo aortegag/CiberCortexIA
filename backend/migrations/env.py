@@ -10,10 +10,8 @@ from alembic import context
 from app.core.config import settings
 from app.core.database import Base
 
-# Import all models so Alembic can detect them
-# Add imports here as models are created:
-# from app.models.user import User
-# from app.models.asset import Asset
+# Import all models so Alembic can detect them in autogenerate
+import app.models  # noqa: F401
 
 config = context.config
 
